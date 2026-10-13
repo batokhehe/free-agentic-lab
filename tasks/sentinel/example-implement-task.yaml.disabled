@@ -1,0 +1,30 @@
+# Example IMPLEMENT task (disabled: extension is .disabled so it is NOT queued).
+# Rename to .yaml to enable it. It requires explicit `--approve` before the
+# implement stage runs, and the orchestrator validates every change against
+# allowed_paths afterwards.
+id: sentinel-example-implement
+title: "Example bounded implement task (template only)"
+mode: implement
+priority: 10
+approval_required: true
+
+goal: |
+  Describe the smallest safe change here. Example: add a single README note under
+  apps/web/docs/ describing the local dev commands. Do not touch anything else.
+
+allowed_paths:
+  - "apps/web/docs/**"
+
+forbidden_paths:
+  - "apps/web/.env"
+  - "apps/web/.env.*"
+
+tests:
+  - name: lint
+    command: "pnpm run lint"
+    cwd: "apps/web"
+    timeout_seconds: 600
+  - name: typecheck
+    command: "pnpm run typecheck"
+    cwd: "apps/web"
+    timeout_seconds: 600

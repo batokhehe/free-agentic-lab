@@ -1,0 +1,9 @@
+{
+  "command": "<dry-run>",
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 0.0,
+  "error": "",
+  "stdout": "[dry-run] model invocation skipped",
+  "stderr": ""
+}

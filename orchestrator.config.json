@@ -1,0 +1,89 @@
+{
+  "workspace_root": ".",
+  "repo_root": ".",
+  "runs_dir": "runs",
+  "tasks_dir": "tasks",
+  "state_file": "state/state.json",
+  "max_fix_attempts": 3,
+  "queue_stop_on_blocked": true,
+  "ignore_dirs": [
+    ".git",
+    "node_modules",
+    ".next",
+    "test-results",
+    "playwright-report",
+    ".turbo",
+    "dist",
+    "build",
+    "coverage",
+    "blob-report",
+    "__pycache__",
+    ".venv",
+    "venv",
+    ".pytest_cache",
+    ".mypy_cache",
+    "runs",
+    "state"
+  ],
+  "ignore_globs": [
+    "*.tsbuildinfo",
+    "**/*.tsbuildinfo",
+    "next-env.d.ts",
+    "**/next-env.d.ts",
+    ".next/**",
+    "**/.next/**",
+    "**/node_modules/**",
+    "**/test-results/**",
+    "**/playwright-report/**",
+    "**/coverage/**",
+    "**/blob-report/**",
+    "**/*.log"
+  ],
+  "protected_paths": [
+    ".env",
+    ".env.*",
+    "**/.env",
+    "**/.env.*",
+    "**/*.pem",
+    "**/*.key",
+    "**/*.p12",
+    "secrets/**",
+    "**/secrets/**",
+    "deployments/**",
+    "migrations/**",
+    "scanner/**",
+    "internal/**"
+  ],
+  "opencode": {
+    "command": "opencode",
+    "model": "opencode/big-pickle",
+    "timeout_seconds": 1800,
+    "agent": "",
+    "extra_args": [],
+    "agent_config": "orchestrator/opencode.agents.json"
+  },
+  "roles": {
+    "coder": {
+      "model": "opencode/big-pickle",
+      "agent": "orchestrator-coder",
+      "fallback_models": ["opencode/ling-3.1-flash-free"]
+    },
+    "reviewer": {
+      "model": "opencode/nemotron-3-ultra-free",
+      "agent": "orchestrator-reviewer",
+      "fallback_models": []
+    },
+    "qa": {
+      "commands": ["python -m unittest discover -s tests -t . -q"]
+    }
+  },
+  "review": {
+    "enabled": true,
+    "max_rounds": 3,
+    "require_independent_model": true
+  },
+  "provider_limits": {
+    "transient_retries": 1,
+    "backoff_seconds": 30
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "git-head",
+  "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+  "command": "git rev-parse HEAD",
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 0.078,
+  "error": "",
+  "stdout": "d61ca589c336089e2f495bfcd2664239f69e309f\n",
+  "stderr": ""
+}

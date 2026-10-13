@@ -1,0 +1,28 @@
+{
+  "run_id": "20261013T033510Z-sentinel-stage0-verification-ygvh",
+  "task_id": "sentinel-stage0-verification",
+  "status": "completed",
+  "files": [
+    "01-audit.json",
+    "01-audit.md",
+    "02-analyze.err.txt",
+    "02-analyze.meta.json",
+    "02-analyze.out.md",
+    "05-test-attempt0-0.json",
+    "05-test-attempt0-1.json",
+    "05-test-attempt0-2.json",
+    "05-test-attempt0-3.json",
+    "05-tests-attempt0.json",
+    "06-diff.patch",
+    "06-review.json",
+    "07-review-verdict.json",
+    "drift-analyze.json",
+    "drift-review.json",
+    "drift-test.json",
+    "manifest-baseline.json",
+    "manifest-latest.json",
+    "report.md",
+    "run.log"
+  ],
+  "generated_at": "2026-10-13T03:35:12+00:00"
+}

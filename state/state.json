@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "active_run": null,
+  "tasks": {
+    "sentinel-stage0-verification": {
+      "status": "completed",
+      "attempts": 0,
+      "last_run_id": "20261013T033510Z-sentinel-stage0-verification-ygvh",
+      "updated_at": "2026-10-13T03:35:12+00:00"
+    }
+  },
+  "history": [
+    {
+      "run_id": "20261012T072547+0000-sentinel-stage0-verification-p8pp",
+      "task_id": "sentinel-stage0-verification",
+      "status": "blocked",
+      "stage": "review",
+      "started_at": "2026-10-12T07:25:47+00:00",
+      "ended_at": "2026-10-12T07:28:57+00:00",
+      "note": "changes detected outside allowed scope: apps/web/pnpm-lock.yaml (out-of-scope)"
+    },
+    {
+      "run_id": "20261013T033120Z-sentinel-stage0-verification-ddqx",
+      "task_id": "sentinel-stage0-verification",
+      "status": "blocked",
+      "stage": "analyze",
+      "started_at": "2026-10-13T03:31:20+00:00",
+      "ended_at": "2026-10-13T03:31:21+00:00",
+      "attempts": 0,
+      "last_exit_code": null,
+      "note": "read-only stage 'analyze' changed the repository (fail-closed): added=runs/20261013T033120Z-sentinel-stage0-verification-ddqx/01-audit.json, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/01-audit.md, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/02-analyze.err.txt, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/02-analyze.meta.json, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/02-analyze.out.md, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/manifest-baseline.json, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/manifest-latest.json, runs/20261013T033120Z-sentinel-stage0-verification-ddqx/stages/audit.done; modified=state/state.json"
+    },
+    {
+      "run_id": "20261013T033510Z-sentinel-stage0-verification-ygvh",
+      "task_id": "sentinel-stage0-verification",
+      "status": "completed",
+      "stage": "report",
+      "started_at": "2026-10-13T03:35:10+00:00",
+      "ended_at": "2026-10-13T03:35:12+00:00",
+      "attempts": 0,
+      "last_exit_code": 128,
+      "note": ""
+    }
+  ],
+  "approvals": {}
+}

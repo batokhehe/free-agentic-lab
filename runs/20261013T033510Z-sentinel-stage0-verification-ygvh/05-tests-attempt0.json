@@ -1,0 +1,50 @@
+{
+  "attempt": 0,
+  "passed": false,
+  "results": [
+    {
+      "name": "node-version",
+      "cwd": "D:\\AI\\free-agentic-lab",
+      "command": "node --version",
+      "returncode": 0,
+      "timed_out": false,
+      "duration_seconds": 0.08,
+      "error": "",
+      "stdout": "v22.20.0\n",
+      "stderr": ""
+    },
+    {
+      "name": "pnpm-version",
+      "cwd": "D:\\AI\\free-agentic-lab",
+      "command": "pnpm --version",
+      "returncode": 0,
+      "timed_out": false,
+      "duration_seconds": 0.551,
+      "error": "",
+      "stdout": "11.5.1\n",
+      "stderr": ""
+    },
+    {
+      "name": "git-head",
+      "cwd": "D:\\AI\\free-agentic-lab",
+      "command": "git rev-parse HEAD",
+      "returncode": 128,
+      "timed_out": false,
+      "duration_seconds": 0.093,
+      "error": "",
+      "stdout": "HEAD\n",
+      "stderr": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    },
+    {
+      "name": "git-branch",
+      "cwd": "D:\\AI\\free-agentic-lab",
+      "command": "git rev-parse --abbrev-ref HEAD",
+      "returncode": 128,
+      "timed_out": false,
+      "duration_seconds": 0.086,
+      "error": "",
+      "stdout": "HEAD\n",
+      "stderr": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    }
+  ]
+}

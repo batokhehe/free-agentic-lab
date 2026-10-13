@@ -1,0 +1,11 @@
+{
+  "name": "node-version",
+  "cwd": "D:\\AI\\free-agentic-lab",
+  "command": "node --version",
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 0.08,
+  "error": "",
+  "stdout": "v22.20.0\n",
+  "stderr": ""
+}

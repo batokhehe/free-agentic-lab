@@ -1,0 +1,14 @@
+{
+  "after_stage": "test",
+  "captured_at": "2026-10-13T03:35:11+00:00",
+  "head_before": "(no commit)",
+  "head_after": "(no commit)",
+  "head_changed": false,
+  "last_exit_code": 128,
+  "changes": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "classified": {}
+}

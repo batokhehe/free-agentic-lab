@@ -1,0 +1,589 @@
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mgit rev-parse --abbrev-ref HEAD; echo "---HEAD---"; git rev-parse HEAD; echo "---STATUS---"; git status --porcelain=v1; echo "---LOG---"; git log --oneline -10
+main
+---HEAD---
+d61ca589c336089e2f495bfcd2664239f69e309f
+---STATUS---
+ D sentinel/apps/web/.gitkeep
+ M sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+ M sentinel/docs/development/DEVELOPMENT-SETUP.md
+ M sentinel/docs/development/IMPLEMENTATION-PLAN.md
+ M sentinel/docs/development/TESTING.md
+?? .github/
+?? sentinel/apps/web/.gitignore
+?? sentinel/apps/web/.nvmrc
+?? sentinel/apps/web/app/
+?? sentinel/apps/web/components/
+?? sentinel/apps/web/e2e/
+?? sentinel/apps/web/eslint.config.mjs
+?? sentinel/apps/web/features/
+?? sentinel/apps/web/lib/
+?? sentinel/apps/web/next.config.ts
+?? sentinel/apps/web/package.json
+?? sentinel/apps/web/playwright.config.ts
+?? sentinel/apps/web/pnpm-lock.yaml
+?? sentinel/apps/web/pnpm-workspace.yaml
+?? sentinel/apps/web/postcss.config.mjs
+?? sentinel/apps/web/test/
+?? sentinel/apps/web/tsconfig.json
+?? sentinel/apps/web/vitest.config.mts
+?? sentinel/apps/web/vitest.setup.ts
+---LOG---
+d61ca58 feat: implement Phase 11C scan monitoring API
+92cfc30 docs: close Phase 10 documentation
+8507eb0 feat: implement audit log API
+c4a3f7a feat: implement report artifact download
+0dc9b30 feat: implement report generation pipeline
+c595482 feat: implement AI analysis worker
+cbd09c8 feat: implement AI analysis request orchestration
+7eb7ce1 feat: add Anthropic AI provider adapter
+35ffa01 feat: establish AI domain and outbound data hardening
+70c064c feat: establish AI analysis schema and API contract
+[0m
+[0m$ [0mGet-ChildItem -Force | Select-Object Mode,Name; echo "---apps---"; if (Test-Path apps) { Get-ChildItem apps -Force | Select-Object Mode,Name }
+Mode   Name                     
+----   ----                     
+d----- apps                     
+d----- deployments              
+d----- docs                     
+d----- internal                 
+d----- migrations               
+d----- scanner                  
+-a---- .env                     
+-a---- .env.example             
+-a---- .gitignore               
+-a---- CLAUDE.md                
+-a---- DOCUMENTATION-MANIFEST.md
+-a---- go.mod                   
+-a---- go.sum                   
+-a---- README.md                
+---apps---
+d----- aiworker                 
+d----- api                      
+d----- reportworker             
+d----- web                      
+d----- worker
+[0m
+[0m$ [0mgit rev-parse --show-toplevel; echo "---"; git status --porcelain=v1 --untracked-files=all -- .github sentinel/apps/web | Sort-Object
+D:/Naufal/Example/Pentest
+---
+[0m
+[0m$ [0mGet-ChildItem -Recurse -Force -File .github | Select-Object FullName; echo "---diffstat docs---"; git diff --stat -- sentinel/docs
+---diffstat docs---
+[0m
+[0m$ [0mGet-ChildItem -Recurse -Force -File "D:\Naufal\Example\Pentest\.github" | ForEach-Object { $_.FullName }
+D:\Naufal\Example\Pentest\.github\workflows\frontend.yml
+[0m
+[0m$ [0mgit -C D:\Naufal\Example\Pentest status --porcelain=v1 --untracked-files=all -- .github | Sort-Object; echo "=== full untracked list ==="; git -C D:\Naufal\Example\Pentest status --porcelain=v1 --untracked-files=all
+?? .github/workflows/frontend.yml
+=== full untracked list ===
+ D sentinel/apps/web/.gitkeep
+ M sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+ M sentinel/docs/development/DEVELOPMENT-SETUP.md
+ M sentinel/docs/development/IMPLEMENTATION-PLAN.md
+ M sentinel/docs/development/TESTING.md
+?? .github/workflows/frontend.yml
+?? sentinel/apps/web/.gitignore
+?? sentinel/apps/web/.nvmrc
+?? sentinel/apps/web/app/globals.css
+?? sentinel/apps/web/app/layout.tsx
+?? sentinel/apps/web/app/page.tsx
+?? sentinel/apps/web/app/providers.test.tsx
+?? sentinel/apps/web/app/providers.tsx
+?? sentinel/apps/web/components/.gitkeep
+?? sentinel/apps/web/e2e/api-proxy.spec.ts
+?? sentinel/apps/web/e2e/boot.spec.ts
+?? sentinel/apps/web/eslint.config.mjs
+?? sentinel/apps/web/features/analyses/.gitkeep
+?? sentinel/apps/web/features/assets/.gitkeep
+?? sentinel/apps/web/features/audit-logs/.gitkeep
+?? sentinel/apps/web/features/auth/.gitkeep
+?? sentinel/apps/web/features/findings/.gitkeep
+?? sentinel/apps/web/features/projects/.gitkeep
+?? sentinel/apps/web/features/reports/.gitkeep
+?? sentinel/apps/web/features/scans/.gitkeep
+?? sentinel/apps/web/features/scopes/.gitkeep
+?? sentinel/apps/web/features/settings/.gitkeep
+?? sentinel/apps/web/lib/api/client.test.ts
+?? sentinel/apps/web/lib/api/client.ts
+?? sentinel/apps/web/lib/api/errors.test.ts
+?? sentinel/apps/web/lib/api/errors.ts
+?? sentinel/apps/web/lib/api/query-client.test.ts
+?? sentinel/apps/web/lib/api/query-client.ts
+?? sentinel/apps/web/lib/api/resources/.gitkeep
+?? sentinel/apps/web/lib/api/types.ts
+?? sentinel/apps/web/lib/auth/refresh.test.ts
+?? sentinel/apps/web/lib/auth/refresh.ts
+?? sentinel/apps/web/lib/auth/session.test.ts
+?? sentinel/apps/web/lib/auth/session.ts
+?? sentinel/apps/web/next.config.ts
+?? sentinel/apps/web/package.json
+?? sentinel/apps/web/playwright.config.ts
+?? sentinel/apps/web/pnpm-lock.yaml
+?? sentinel/apps/web/pnpm-workspace.yaml
+?? sentinel/apps/web/postcss.config.mjs
+?? sentinel/apps/web/test/msw/server.ts
+?? sentinel/apps/web/test/security.test.ts
+?? sentinel/apps/web/tsconfig.json
+?? sentinel/apps/web/vitest.config.mts
+?? sentinel/apps/web/vitest.setup.ts
+[0m
+[0m→ [0mRead apps/web/package.json
+[0m→ [0mRead apps/web/next.config.ts
+[0m→ [0mRead apps/web/tsconfig.json
+[0m→ [0mRead apps/web/.nvmrc
+[0m→ [0mRead apps/web/.gitignore
+[0m→ [0mRead apps/web/pnpm-workspace.yaml
+[0m→ [0mRead apps/web/lib/auth/session.ts
+[0m→ [0mRead apps/web/lib/auth/refresh.ts
+[0m→ [0mRead apps/web/lib/api/client.ts
+[0m→ [0mRead apps/web/lib/api/errors.ts
+[0m→ [0mRead apps/web/lib/api/query-client.ts
+[0m→ [0mRead apps/web/lib/api/types.ts
+[0m→ [0mRead apps/web/app/providers.tsx
+[0m→ [0mRead apps/web/app/layout.tsx
+[0m→ [0mRead apps/web/app/page.tsx
+[0m→ [0mRead apps/web/vitest.config.mts
+[0m→ [0mRead apps/web/playwright.config.ts
+[0m→ [0mRead apps/web/eslint.config.mjs
+[0m→ [0mRead D:/Naufal/Example/Pentest/.github/workflows/frontend.yml
+[0m→ [0mRead apps/web/vitest.setup.ts
+[0m→ [0mRead apps/web/test/security.test.ts
+[0m→ [0mRead apps/web/test/msw/server.ts
+[0m→ [0mRead apps/web/e2e/api-proxy.spec.ts
+[0m→ [0mRead apps/web/e2e/boot.spec.ts
+[0m→ [0mRead apps/web/app/globals.css
+[0m
+[0m$ [0mif (Test-Path node_modules) { "node_modules EXISTS" } else { "node_modules MISSING" }; echo "---.next---"; if (Test-Path .next) { ".next EXISTS" } else { ".next MISSING" }; echo "---next-env.d.ts---"; if (Test-Path next-env.d.ts) { "next-env.d.ts EXISTS" } else { "next-env.d.ts MISSING" }; echo "---gitignore root of sentinel---"; Get-Content D:\Naufal\Example\Pentest\sentinel\.gitignore -ErrorAction SilentlyContinue
+node_modules EXISTS
+---.next---
+.next EXISTS
+---next-env.d.ts---
+next-env.d.ts EXISTS
+---gitignore root of sentinel---
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# Go build output
+/bin/
+/dist/
+*.exe
+*.exe~
+*.test
+*.out
+coverage.out
+coverage.html
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Node / Next.js (apps/web)
+node_modules/
+.next/
+out/
+.pnpm-store/
+*.tsbuildinfo
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local tooling output
+/tmp/
+[0m
+[0m$ [0mnode --version; echo "---pnpm---"; pnpm --version 2>&1; echo "---npm---"; npm --version; echo "---which pnpm---"; Get-Command pnpm -ErrorAction SilentlyContinue | Select-Object Source
+v22.20.0
+---pnpm---
+12.9.1
+---npm---
+10.9.3
+---which pnpm---
+
+Source                                                             
+------                                                             
+C:\Users\naufal.mahardika.GTX-NOTE-196\AppData\Roaming\npm\pnpm.ps1
+[0m
+[0m→ [0mRead apps/web/lib/auth/refresh.test.ts
+[0m→ [0mRead apps/web/lib/auth/session.test.ts
+[0m→ [0mRead apps/web/app/providers.test.tsx
+[0m
+[0m$ [0mgit -C D:\Naufal\Example\Pentest diff -- sentinel/docs/development/IMPLEMENTATION-PLAN.md | Select-Object -First 120
+warning: in the working copy of 'sentinel/docs/development/IMPLEMENTATION-PLAN.md', LF will be replaced by CRLF the next time Git touches it
+diff --git a/sentinel/docs/development/IMPLEMENTATION-PLAN.md b/sentinel/docs/development/IMPLEMENTATION-PLAN.md
+index 01509c4..3ff6854 100644
+--- a/sentinel/docs/development/IMPLEMENTATION-PLAN.md
++++ b/sentinel/docs/development/IMPLEMENTATION-PLAN.md
+@@ -707,8 +707,9 @@ Build the Next.js web application against the locked API contract.
+ 
+ ## Scope
+ 
+-Implement in stages:
++Implement in stages, in order (Phase 11D-1):
+ 
++0. frontend foundation: Next.js App Router scaffold, strict TypeScript, Tailwind, pnpm, pinned versions, development `/api/v1` rewrite, API client and handwritten types, in-memory auth session and refresh coordination, TanStack Query, test stack (Vitest, React Testing Library, jsdom, MSW, Playwright) and CI (`docs/architecture/FRONTEND-ARCHITECTURE.md`, Implementation Status)
+ 1. authentication
+ 2. project dashboard
+ 3. project/assets
+@@ -720,6 +721,8 @@ Implement in stages:
+ 9. reports
+ 10. audit logs
+ 
++Each stage starts only when the previous ones are in place; scan monitoring (stage 6) is not implemented before its dependencies. The frontend uses handwritten API types; correcting the OpenAPI 3.1 `nullable` keywords is a separate API-contract follow-up.
++
+ Stage 6 needs a project's scans: `GET /api/v1/scans?projectId=` (`scan:read`, keyset, optional `status`) and `errorCode` on scan responses were locked (Phase 11B) and implemented before stage 6 (`docs/security/AUTHORIZATION-MODEL.md`, Scans).
+ 
+ Stage 10 needs `GET /api/v1/audit-logs`. Its backend contract was locked and implemented before stage 10, as `docs/reports/REPORTS.md` D10.17 required: one organization per request (`organizationId`, `audit:read`), no filters, no metadata (`docs/security/AUTHORIZATION-MODEL.md`, Audit Log API).
+[0m
+[0m$ [0mgit -C D:\Naufal\Example\Pentest diff -- sentinel/docs/development/TESTING.md sentinel/docs/development/DEVELOPMENT-SETUP.md
+warning: in the working copy of 'sentinel/docs/development/DEVELOPMENT-SETUP.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'sentinel/docs/development/TESTING.md', LF will be replaced by CRLF the next time Git touches it
+diff --git a/sentinel/docs/development/DEVELOPMENT-SETUP.md b/sentinel/docs/development/DEVELOPMENT-SETUP.md
+index 752af7b..b9b50e1 100644
+--- a/sentinel/docs/development/DEVELOPMENT-SETUP.md
++++ b/sentinel/docs/development/DEVELOPMENT-SETUP.md
+@@ -3,8 +3,8 @@
+ ## Prerequisites
+ 
+ - Go
+-- Node.js LTS
+-- pnpm
++- Node.js 24.21.0 (LTS; pinned in `apps/web/.nvmrc` and enforced by `package.json` `engines`)
++- pnpm 12.9.1 (pinned in `apps/web/package.json` `packageManager`)
+ - Docker
+ - PostgreSQL via Docker
+ 
+@@ -34,12 +34,31 @@ Copy `.env.example` to `.env` and provide local values. Never commit real secret
+ 5. Start Next.js.
+ 6. Open the dashboard.
+ 
++## Frontend (apps/web)
++
++Run from `apps/web`:
++
++```text
++pnpm install --frozen-lockfile
++pnpm dev          # Next.js on http://127.0.0.1:3000
++pnpm typecheck
++pnpm lint
++pnpm test         # Vitest, jsdom, React Testing Library, MSW
++pnpm build
++pnpm test:e2e     # Playwright (browsers: pnpm exec playwright install chromium)
++```
++
++The browser calls the API only at the relative path `/api/v1`. In development `next dev` forwards `/api/v1/*` to the API at `http://127.0.0.1:8080` (`API_HOST=127.0.0.1`, `API_PORT=8080`), so the page and the API share one origin and no CORS is involved. The refresh cookie is `Secure`; over local HTTP, start the API with `APP_ENV=development` and `AUTH_COOKIE_SECURE=false` (accepted only in development). The Playwright tests that reach the API run only with `SENTINEL_E2E_API=1` and the API running as above; without it they are skipped and say what they need.
++
+ ## CI checks
+ 
+ - Go tests
+ - Go vet/lint
+ - Frontend typecheck
+ - Frontend lint
++- Frontend tests
+ - Frontend build
++
++The frontend checks run in `.github/workflows/frontend.yml` (install with `--frozen-lockfile`, typecheck, lint, test, build) on the pinned Node and pnpm.
+ - Migration validation
+ - Integration tests
+diff --git a/sentinel/docs/development/TESTING.md b/sentinel/docs/development/TESTING.md
+index 860fa32..0738b95 100644
+--- a/sentinel/docs/development/TESTING.md
++++ b/sentinel/docs/development/TESTING.md
+@@ -31,6 +31,13 @@ Cover:
+ - oversized payloads
+ - rate limits
+ 
++## Frontend (apps/web)
++
++- Unit and component tests: Vitest with jsdom and React Testing Library (`pnpm test`). They cover the API client, error mapping, the query retry policy, the in-memory session, token renewal and tab coordination, and providers.
++- API fixtures: MSW (`test/msw/server.ts`); a request without a handler fails the test.
++- Static security checks (`test/security.test.ts`): no browser storage, cookie access or console in application code, no absolute URL, no internal API field, the `/api/v1` rewrite in development only.
++- Browser E2E: Playwright (`pnpm test:e2e`) through the Next.js dev server and its `/api/v1` rewrite to the Go API, never directly to the API; tests that need the API run with `SENTINEL_E2E_API=1`.
++
+ ## End-to-end
+ 
+ Critical user journey:
+[0m
+[0m$ [0mgit -C D:\Naufal\Example\Pentest diff -- sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+warning: in the working copy of 'sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md', LF will be replaced by CRLF the next time Git touches it
+diff --git a/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md b/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+index 156008c..4740c9e 100644
+--- a/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
++++ b/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+@@ -36,3 +36,67 @@ lib/
+ ## Main screens
+ 
+ Dashboard, Projects, Project Detail, Create Assessment, Scan Detail, Findings, Finding Detail, Reports, Settings.
++
++## Implementation Status (Phase 11, Stage 0 — Frontend Foundation)
++
++Locked in Phase 11D-1. This section records what `apps/web` implements; where it is more specific than the sections above, it is authoritative.
++
++### Toolchain (exact pins)
++
++| Tool | Version | Where pinned |
++|---|---|---|
++| Node.js | 24.21.0 (LTS) | `apps/web/.nvmrc`, `package.json` `engines` (enforced: `engineStrict`) |
++| pnpm | 12.9.1 | `package.json` `packageManager` |
++| Next.js | 16.3.8 (App Router) | `package.json` |
++| React / react-dom | 19.3.0 | `package.json` |
++| TypeScript | 6.0.3 (strict) | `package.json`; 7.x is not used because `typescript-eslint` (through `eslint-config-next`) supports `<6.1.0` |
++| Tailwind CSS | 4.3.3 (with `@tailwindcss/postcss` 4.3.3) | `package.json` |
++| TanStack Query | 5.104.1 | `package.json` |
++| Vitest / jsdom / React Testing Library / MSW / Playwright | 5.0.3 / 30.1.2 / 16.3.3 / 3.0.2 / 1.63.0 | `package.json` |
++| ESLint | 9.39.5 with `eslint-config-next` 16.3.8 | `package.json`; 10.x is not used because the React, import and jsx-a11y plugins of `eslint-config-next` support ESLint up to 9 |
++
++Every dependency is pinned exactly (`saveExact`), and `pnpm-lock.yaml` is committed. Install scripts are denied unless `pnpm-workspace.yaml` approves them (`allowBuilds`).
++
++### Structure
++
++```text
++apps/web/
++  app/          routes and composition (App Router); layout and static pages are server components
++  features/     domain components and hooks: auth, projects, assets, scopes, scans, findings,
++                analyses, reports, audit-logs, settings (empty until their stage)
++  components/   generic UI without domain knowledge
++  lib/api/      client.ts, errors.ts, types.ts, query-client.ts, resources/
++  lib/auth/     session.ts (in-memory session), refresh.ts (renewal and tab coordination)
++  test/         MSW server and static security checks
++  e2e/          Playwright browser tests
++```
++
++### Same origin
++
++The browser only ever calls the relative path `/api/v1`. In production the reverse proxy routes `/api/v1/*` to the Go API and everything else to Next.js, under one HTTPS origin. In development the Next.js dev server forwards `/api/v1/*` to `http://127.0.0.1:8080` with a rewrite that exists only when `NODE_ENV=development`. The API grants no CORS and Next.js is never a proxy or BFF in production.
++
++### Server and client components
++
++Authenticated data is fetched in the browser: the access token exists only in browser memory and the refresh cookie is scoped to `/api/v1/auth`, so a server component can never hold credentials. Server components are used for the static shell, layout and non-authenticated static content only. `app/providers.tsx` is the client boundary (one `QueryClient` per tab).
++
++### API client and types
++
++`lib/api/client.ts` is a handwritten `fetch` client: relative `/api/v1` paths built from encoded segments (`apiPath`), queries through `URLSearchParams`, `AbortSignal`, `credentials: "same-origin"`, the Bearer token from an injected token source, and no logging. A 401 asks the token source to renew once and the original request is retried at most once; an anonymous request never renews. Failures become a typed `ApiError` (`kind`, `status`, `code`, `requestId`, `details`, `retryAfterMs`) read from the API error envelope; the server's message is kept for diagnostics only and is never UI copy, and no error code is invented when there is no envelope.
++
++`lib/api/types.ts` holds handwritten types matching the backend contract, with every nullable field typed `| null`. They are not generated from `docs/api/openapi.yaml`, which declares OpenAPI 3.1 but marks nullable fields with the 3.0 `nullable: true` keyword; correcting that is a separate API-contract follow-up. Fields the API never returns (worker lease, heartbeat, stored error message, snapshots) are not declared.
++
++### Authentication foundation
++
++`lib/auth/session.ts` keeps the access token in a closure, never in browser storage and never in the state snapshot given to React. `lib/auth/refresh.ts` renews it: concurrent renewals in a tab share one refresh; across tabs a refresh runs only while holding the Web Lock `sentinel-auth-refresh`, so no two refreshes of the shared refresh cookie are ever in flight (the backend revokes a rotated session and revokes the whole lineage on reuse); the refreshing tab publishes the new token, and any logout or lost session, on the BroadcastChannel `sentinel-auth`. Without Web Locks nothing is refreshed and the session expires. The refresh request is `POST /api/v1/auth/refresh` with `X-Requested-With: XMLHttpRequest`, the cookie travelling only as an HttpOnly cookie. Login, the boot-time session restore and protected routes are Stage 1.
++
++### Data fetching
++
++TanStack Query, with defaults in `lib/api/query-client.ts`: network and 5xx failures retry after 5s, 10s, 20s and 40s (±20% jitter, at most 60s), a 429 after its `Retry-After`, nothing else; queries do not poll in a hidden tab and refetch once when it is visible again; mutations are not retried. Scan polling intervals (5s for a running scan, 10s for the first page of a list with running scans) are applied in Stage 6.
++
++### Lint and security checks
++
++ESLint forbids `console`, `localStorage`, `sessionStorage` and `document.cookie` in application code. `test/security.test.ts` checks the browser sources for storage, cookie and console use and for absolute URLs, checks that the API types declare no internal field, and that the `/api/v1` rewrite exists only in development.
++
++### Stages
++
++Stage 0 (this foundation) precedes Stage 1 Authentication, Stage 2 Project Dashboard, Stage 3 Project/Assets, Stage 4 Scope, Stage 5 Scan Creation and Stage 6 Scan Monitoring, in that order.
+[0m
+[0m→ [0mRead apps/web/lib/api/client.test.ts
+[0m→ [0mRead apps/web/lib/api/query-client.test.ts
+[0m→ [0mRead apps/web/postcss.config.mjs
+[0m
+[0m$ [0mforeach ($p in @("next","react","typescript","eslint","vitest","@tanstack/react-query","tailwindcss","msw","@playwright/test","jsdom")) { $f = "node_modules/$p/package.json"; if (Test-Path $f) { $v = (Get-Content $f -Raw | ConvertFrom-Json).version; "$p = $v" } else { "$p = NOT INSTALLED" } }
+next = 16.3.8
+react = 19.3.0
+typescript = 6.0.3
+eslint = 9.39.5
+vitest = 5.0.3
+@tanstack/react-query = 5.104.1
+tailwindcss = 4.3.3
+msw = 3.0.2
+@playwright/test = 1.63.0
+jsdom = 30.1.2
+[0m
+[0m→ [0mRead apps/web/lib/api/errors.test.ts
+[0m
+[0m$ [0mGet-Content pnpm-lock.yaml -TotalCount 40; echo "=== count lines ==="; (Get-Content pnpm-lock.yaml | Measure-Object -Line).Lines
+---
+lockfileVersion: '9.0'
+
+importers:
+
+  .:
+    configDependencies: {}
+    packageManagerDependencies:
+      '@pnpm/exe':
+        specifier: 12.9.1
+        version: 12.9.1
+      pnpm:
+        specifier: 12.9.1
+        version: 12.9.1
+
+packages:
+
+  '@pnpm/exe.android-arm64@12.9.1':
+    resolution: {integrity: sha512-Hgm1XdqMTfBC8PdGLL+NjZWv4xyi7D6XNrN9fb24XGYlyTBmUtdCefKnCLmHujShRD8BEO1zqM30SNcKBDLysw==}
+    cpu: [arm64]
+    os: [android]
+
+  '@pnpm/exe.android-x64@12.9.1':
+    resolution: {integrity: sha512-WDGCe6jZRVZP3RC/q6hOkZylkPkIQIi1/GcrR/d/YzbihhAHXCczrk+UYnV5TgbsEnAYO7Cx+2rX3nfhHvy24w==}
+    cpu: [x64]
+    os: [android]
+
+  '@pnpm/exe.darwin-arm64@12.9.1':
+    resolution: {integrity: sha512-+7iiEEBgYN9szPWUnAuN6eOVMTI6Hrki5bcuC9n9xl9tTnT53Tpxpo45Hml+W4IrAU0d+Tmd0sPnVIbX59PD6w==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@pnpm/exe.darwin-x64@12.9.1':
+    resolution: {integrity: sha512-SK7TxJiR12GbJZGffRFHItkc+Mx+99v6xMMJ9/X//8NwWV1wo17a2bwfGI8qZpl17YwsrmPEFOOqhzE1GIlrtQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@pnpm/exe.freebsd-x64@12.9.1':
+    resolution: {integrity: sha512-4AjLk6uvTs2iO6wMit2hcxJ2M32xb7OV5SNFk+w6G8/NzcjcMB7ENEpyeXyLiP0kcnp8uaCGUct2NfrLCJ35eQ==}
+    cpu: [x64]
+=== count lines ===
+4513
+[0m
+[0m$ [0mGet-ChildItem -Recurse -Force -File -Path . | Where-Object { $_.FullName -notmatch '\\node_modules\\' -and $_.FullName -notmatch '\\.next\\' } | ForEach-Object { $_.FullName.Replace("D:\Naufal\Example\Pentest\sentinel\apps\web\","") } | Sort-Object
+.gitignore
+.nvmrc
+app\globals.css
+app\layout.tsx
+app\page.tsx
+app\providers.test.tsx
+app\providers.tsx
+components\.gitkeep
+e2e\api-proxy.spec.ts
+e2e\boot.spec.ts
+eslint.config.mjs
+features\analyses\.gitkeep
+features\assets\.gitkeep
+features\audit-logs\.gitkeep
+features\auth\.gitkeep
+features\findings\.gitkeep
+features\projects\.gitkeep
+features\reports\.gitkeep
+features\scans\.gitkeep
+features\scopes\.gitkeep
+features\settings\.gitkeep
+lib\api\client.test.ts
+lib\api\client.ts
+lib\api\errors.test.ts
+lib\api\errors.ts
+lib\api\query-client.test.ts
+lib\api\query-client.ts
+lib\api\resources\.gitkeep
+lib\api\types.ts
+lib\auth\refresh.test.ts
+lib\auth\refresh.ts
+lib\auth\session.test.ts
+lib\auth\session.ts
+next.config.ts
+next-env.d.ts
+package.json
+playwright.config.ts
+pnpm-lock.yaml
+pnpm-workspace.yaml
+postcss.config.mjs
+test\msw\server.ts
+test\security.test.ts
+test-results\.last-run.json
+test-results\boot-the-application-shell-boots-at-a-single-origin-chromium\error-context.md
+test-results\boot-the-application-shell-boots-at-a-single-origin-chromium\trace.zip
+tsconfig.json
+tsconfig.tsbuildinfo
+vitest.config.mts
+vitest.setup.ts
+[0m
+[0m→ [0mRead apps/web/test-results/.last-run.json
+[0m→ [0mRead apps/web/test-results/boot-the-application-shell-boots-at-a-single-origin-chromium/error-context.md
+[0m
+[0m$ [0mGet-Item test-results -Recurse -Force | Select-Object LastWriteTime,Length,FullName | Format-List; echo "=== next-env.d.ts content ==="; Get-Content next-env.d.ts
+Get-Item : A parameter cannot be found that matches parameter name 'Recurse'.
+At line:1 char:23
++ Get-Item test-results -Recurse -Force | Select-Object LastWriteTime,L ...
++                       ~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Item], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetItemCommand
+=== next-env.d.ts content ===
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/dev/types/routes.d.ts";
+import "./.next/dev/types/root-params.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+[0m
+[0m$ [0mgit -C D:\Naufal\Example\Pentest check-ignore -v sentinel/apps/web/next-env.d.ts sentinel/apps/web/tsconfig.tsbuildinfo sentinel/apps/web/test-results/.last-run.json sentinel/apps/web/.next 2>&1
+sentinel/apps/web/.gitignore:2:next-env.d.ts	sentinel/apps/web/next-env.d.ts
+sentinel/.gitignore:30:*.tsbuildinfo	sentinel/apps/web/tsconfig.tsbuildinfo
+sentinel/apps/web/.gitignore:6:test-results/	sentinel/apps/web/test-results/.last-run.json
+sentinel/.gitignore:27:.next/	sentinel/apps/web/.next
+[0m
+[0m$ [0mGet-ChildItem test-results -Recurse -Force -File | Sort-Object FullName | ForEach-Object { "{0}  {1} bytes  {2}" -f $_.LastWriteTime.ToString("s"), $_.Length, $_.FullName.Replace("D:\Naufal\Example\Pentest\sentinel\apps\web\","") }; echo "=== tsbuildinfo ==="; Get-Item tsconfig.tsbuildinfo | ForEach-Object { "{0}  {1} bytes" -f $_.LastWriteTime.ToString("s"), $_.Length }
+2026-10-12T13:43:44  96 bytes  test-results\.last-run.json
+2026-10-12T13:43:44  1293 bytes  test-results\boot-the-application-shell-boots-at-a-single-origin-chromium\error-context.md
+2026-10-12T13:43:44  2111 bytes  test-results\boot-the-application-shell-boots-at-a-single-origin-chromium\trace.zip
+=== tsbuildinfo ===
+2026-10-12T13:41:50  262500 bytes
+[0m
+[0m$ [0m"node = " + (node --version); "declared engines.node = " + ((Get-Content package.json -Raw | ConvertFrom-Json).engines.node); "declared packageManager = " + ((Get-Content package.json -Raw | ConvertFrom-Json).packageManager); "nvmrc = " + (Get-Content .nvmrc -Raw).Trim(); "pnpm installed = " + (pnpm --version); echo "=== env files under apps/web ==="; Get-ChildItem -Recurse -Force -File -Filter ".env*" | ForEach-Object { $_.FullName }
+node = v22.20.0
+declared engines.node = 24.21.0
+declared packageManager = pnpm@12.9.1
+nvmrc = 24.21.0
+pnpm installed = 12.9.1
+=== env files under apps/web ===
+[0m
+[0m$ [0mif (Test-Path .next/BUILD_ID) { "BUILD_ID = " + (Get-Content .next/BUILD_ID) } else { "no BUILD_ID (no production build)" }; echo "=== .next top entries ==="; Get-ChildItem .next -Force | Select-Object Mode,LastWriteTime,Name; echo "=== .next/dev exists? ==="; Test-Path .next/dev; echo "=== node_modules/.vite or .vitest ==="; Get-ChildItem node_modules -Force -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'vite|vitest' } | ForEach-Object { $_.Name }
+BUILD_ID = raNquAXw75oNkw6wXIGC8
+=== .next top entries ===
+
+Mode   LastWriteTime         Name                           
+----   -------------         ----                           
+d----- 10/12/2026 1:42:37 PM build                          
+d----- 10/6/2026 4:10:53 PM  cache                          
+d----- 10/12/2026 1:43:44 PM dev                            
+d----- 10/12/2026 1:42:47 PM diagnostics                    
+d----- 10/12/2026 1:42:47 PM server                         
+d----- 10/12/2026 1:42:39 PM static                         
+d----- 10/12/2026 1:42:36 PM types                          
+-a---- 10/12/2026 1:42:43 PM app-path-routes-manifest.json  
+-a---- 10/12/2026 1:42:39 PM build-manifest.json            
+-a---- 10/12/2026 1:42:45 PM BUILD_ID                       
+-a---- 10/12/2026 1:42:47 PM export-marker.json             
+-a---- 10/12/2026 1:42:39 PM fallback-build-manifest.json   
+-a---- 10/12/2026 1:42:47 PM images-manifest.json           
+-a---- 10/12/2026 1:42:39 PM next-minimal-server.js.nft.json
+-a---- 10/12/2026 1:42:39 PM next-server.js.nft.json        
+-a---- 10/12/2026 1:42:36 PM package.json                   
+-a---- 10/12/2026 1:42:47 PM prerender-manifest.json        
+-a---- 10/12/2026 1:42:43 PM required-server-files.js       
+-a---- 10/12/2026 1:42:43 PM required-server-files.json     
+-a---- 10/12/2026 1:42:47 PM routes-manifest.json           
+-a---- 10/12/2026 1:42:47 PM trace                          
+-a---- 10/12/2026 1:42:47 PM trace-build                    
+-a---- 10/12/2026 1:42:36 PM turbopack                      
+=== .next/dev exists? ===
+True
+=== node_modules/.vite or .vitest ===
+.vite
+.vite-temp
+vitest
+[0m
+[0m$ [0mGet-Item .next -Force | ForEach-Object { "next dir: " + $_.LastWriteTime.ToString("s") }; if (Test-Path .next/BUILD_ID) { Get-Item .next/BUILD_ID | ForEach-Object { "BUILD_ID mtime: " + $_.LastWriteTime.ToString("s") } }; echo "=== trace.zip listing ==="; Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path "test-results\boot-the-application-shell-boots-at-a-single-origin-chromium\trace.zip")).Entries | ForEach-Object { "{0}  {1} bytes" -f $_.FullName, $_.Length }
+next dir: 2026-10-12T13:42:47
+BUILD_ID mtime: 2026-10-12T13:42:45
+=== trace.zip listing ===
+attachments/14e00d739f4e125bee70443292fd3fd45f32d1b8  1293 bytes
+test.trace  11704 bytes
+[0m

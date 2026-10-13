@@ -1,0 +1,164 @@
+diff --git a/sentinel/apps/web/.gitkeep b/sentinel/apps/web/.gitkeep
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md b/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+index 156008c..4740c9e 100644
+--- a/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
++++ b/sentinel/docs/architecture/FRONTEND-ARCHITECTURE.md
+@@ -36,3 +36,67 @@ lib/
+ ## Main screens
+ 
+ Dashboard, Projects, Project Detail, Create Assessment, Scan Detail, Findings, Finding Detail, Reports, Settings.
++
++## Implementation Status (Phase 11, Stage 0 — Frontend Foundation)
++
++Locked in Phase 11D-1. This section records what `apps/web` implements; where it is more specific than the sections above, it is authoritative.
++
++### Toolchain (exact pins)
++
++| Tool | Version | Where pinned |
++|---|---|---|
++| Node.js | 24.21.0 (LTS) | `apps/web/.nvmrc`, `package.json` `engines` (enforced: `engineStrict`) |
++| pnpm | 12.9.1 | `package.json` `packageManager` |
++| Next.js | 16.3.8 (App Router) | `package.json` |
++| React / react-dom | 19.3.0 | `package.json` |
++| TypeScript | 6.0.3 (strict) | `package.json`; 7.x is not used because `typescript-eslint` (through `eslint-config-next`) supports `<6.1.0` |
++| Tailwind CSS | 4.3.3 (with `@tailwindcss/postcss` 4.3.3) | `package.json` |
++| TanStack Query | 5.104.1 | `package.json` |
++| Vitest / jsdom / React Testing Library / MSW / Playwright | 5.0.3 / 30.1.2 / 16.3.3 / 3.0.2 / 1.63.0 | `package.json` |
++| ESLint | 9.39.5 with `eslint-config-next` 16.3.8 | `package.json`; 10.x is not used because the React, import and jsx-a11y plugins of `eslint-config-next` support ESLint up to 9 |
++
++Every dependency is pinned exactly (`saveExact`), and `pnpm-lock.yaml` is committed. Install scripts are denied unless `pnpm-workspace.yaml` approves them (`allowBuilds`).
++
++### Structure
++
++```text
++apps/web/
++  app/          routes and composition (App Router); layout and static pages are server components
++  features/     domain components and hooks: auth, projects, assets, scopes, scans, findings,
++                analyses, reports, audit-logs, settings (empty until their stage)
++  components/   generic UI without domain knowledge
++  lib/api/      client.ts, errors.ts, types.ts, query-client.ts, resources/
++  lib/auth/     session.ts (in-memory session), refresh.ts (renewal and tab coordination)
++  test/         MSW server and static security checks
++  e2e/          Playwright browser tests
++```
++
++### Same origin
++
++The browser only ever calls the relative path `/api/v1`. In production the reverse proxy routes `/api/v1/*` to the Go API and everything else to Next.js, under one HTTPS origin. In development the Next.js dev server forwards `/api/v1/*` to `http://127.0.0.1:8080` with a rewrite that exists only when `NODE_ENV=development`. The API grants no CORS and Next.js is never a proxy or BFF in production.
++
++### Server and client components
++
++Authenticated data is fetched in the browser: the access token exists only in browser memory and the refresh cookie is scoped to `/api/v1/auth`, so a server component can never hold credentials. Server components are used for the static shell, layout and non-authenticated static content only. `app/providers.tsx` is the client boundary (one `QueryClient` per tab).
++
++### API client and types
++
++`lib/api/client.ts` is a handwritten `fetch` client: relative `/api/v1` paths built from encoded segments (`apiPath`), queries through `URLSearchParams`, `AbortSignal`, `credentials: "same-origin"`, the Bearer token from an injected token source, and no logging. A 401 asks the token source to renew once and the original request is retried at most once; an anonymous request never renews. Failures become a typed `ApiError` (`kind`, `status`, `code`, `requestId`, `details`, `retryAfterMs`) read from the API error envelope; the server's message is kept for diagnostics only and is never UI copy, and no error code is invented when there is no envelope.
++
++`lib/api/types.ts` holds handwritten types matching the backend contract, with every nullable field typed `| null`. They are not generated from `docs/api/openapi.yaml`, which declares OpenAPI 3.1 but marks nullable fields with the 3.0 `nullable: true` keyword; correcting that is a separate API-contract follow-up. Fields the API never returns (worker lease, heartbeat, stored error message, snapshots) are not declared.
++
++### Authentication foundation
++
++`lib/auth/session.ts` keeps the access token in a closure, never in browser storage and never in the state snapshot given to React. `lib/auth/refresh.ts` renews it: concurrent renewals in a tab share one refresh; across tabs a refresh runs only while holding the Web Lock `sentinel-auth-refresh`, so no two refreshes of the shared refresh cookie are ever in flight (the backend revokes a rotated session and revokes the whole lineage on reuse); the refreshing tab publishes the new token, and any logout or lost session, on the BroadcastChannel `sentinel-auth`. Without Web Locks nothing is refreshed and the session expires. The refresh request is `POST /api/v1/auth/refresh` with `X-Requested-With: XMLHttpRequest`, the cookie travelling only as an HttpOnly cookie. Login, the boot-time session restore and protected routes are Stage 1.
++
++### Data fetching
++
++TanStack Query, with defaults in `lib/api/query-client.ts`: network and 5xx failures retry after 5s, 10s, 20s and 40s (±20% jitter, at most 60s), a 429 after its `Retry-After`, nothing else; queries do not poll in a hidden tab and refetch once when it is visible again; mutations are not retried. Scan polling intervals (5s for a running scan, 10s for the first page of a list with running scans) are applied in Stage 6.
++
++### Lint and security checks
++
++ESLint forbids `console`, `localStorage`, `sessionStorage` and `document.cookie` in application code. `test/security.test.ts` checks the browser sources for storage, cookie and console use and for absolute URLs, checks that the API types declare no internal field, and that the `/api/v1` rewrite exists only in development.
++
++### Stages
++
++Stage 0 (this foundation) precedes Stage 1 Authentication, Stage 2 Project Dashboard, Stage 3 Project/Assets, Stage 4 Scope, Stage 5 Scan Creation and Stage 6 Scan Monitoring, in that order.
+diff --git a/sentinel/docs/development/DEVELOPMENT-SETUP.md b/sentinel/docs/development/DEVELOPMENT-SETUP.md
+index 752af7b..b9b50e1 100644
+--- a/sentinel/docs/development/DEVELOPMENT-SETUP.md
++++ b/sentinel/docs/development/DEVELOPMENT-SETUP.md
+@@ -3,8 +3,8 @@
+ ## Prerequisites
+ 
+ - Go
+-- Node.js LTS
+-- pnpm
++- Node.js 24.21.0 (LTS; pinned in `apps/web/.nvmrc` and enforced by `package.json` `engines`)
++- pnpm 12.9.1 (pinned in `apps/web/package.json` `packageManager`)
+ - Docker
+ - PostgreSQL via Docker
+ 
+@@ -34,12 +34,31 @@ Copy `.env.example` to `.env` and provide local values. Never commit real secret
+ 5. Start Next.js.
+ 6. Open the dashboard.
+ 
++## Frontend (apps/web)
++
++Run from `apps/web`:
++
++```text
++pnpm install --frozen-lockfile
++pnpm dev          # Next.js on http://127.0.0.1:3000
++pnpm typecheck
++pnpm lint
++pnpm test         # Vitest, jsdom, React Testing Library, MSW
++pnpm build
++pnpm test:e2e     # Playwright (browsers: pnpm exec playwright install chromium)
++```
++
++The browser calls the API only at the relative path `/api/v1`. In development `next dev` forwards `/api/v1/*` to the API at `http://127.0.0.1:8080` (`API_HOST=127.0.0.1`, `API_PORT=8080`), so the page and the API share one origin and no CORS is involved. The refresh cookie is `Secure`; over local HTTP, start the API with `APP_ENV=development` and `AUTH_COOKIE_SECURE=false` (accepted only in development). The Playwright tests that reach the API run only with `SENTINEL_E2E_API=1` and the API running as above; without it they are skipped and say what they need.
++
+ ## CI checks
+ 
+ - Go tests
+ - Go vet/lint
+ - Frontend typecheck
+ - Frontend lint
++- Frontend tests
+ - Frontend build
++
++The frontend checks run in `.github/workflows/frontend.yml` (install with `--frozen-lockfile`, typecheck, lint, test, build) on the pinned Node and pnpm.
+ - Migration validation
+ - Integration tests
+diff --git a/sentinel/docs/development/IMPLEMENTATION-PLAN.md b/sentinel/docs/development/IMPLEMENTATION-PLAN.md
+index 01509c4..3ff6854 100644
+--- a/sentinel/docs/development/IMPLEMENTATION-PLAN.md
++++ b/sentinel/docs/development/IMPLEMENTATION-PLAN.md
+@@ -707,8 +707,9 @@ Build the Next.js web application against the locked API contract.
+ 
+ ## Scope
+ 
+-Implement in stages:
++Implement in stages, in order (Phase 11D-1):
+ 
++0. frontend foundation: Next.js App Router scaffold, strict TypeScript, Tailwind, pnpm, pinned versions, development `/api/v1` rewrite, API client and handwritten types, in-memory auth session and refresh coordination, TanStack Query, test stack (Vitest, React Testing Library, jsdom, MSW, Playwright) and CI (`docs/architecture/FRONTEND-ARCHITECTURE.md`, Implementation Status)
+ 1. authentication
+ 2. project dashboard
+ 3. project/assets
+@@ -720,6 +721,8 @@ Implement in stages:
+ 9. reports
+ 10. audit logs
+ 
++Each stage starts only when the previous ones are in place; scan monitoring (stage 6) is not implemented before its dependencies. The frontend uses handwritten API types; correcting the OpenAPI 3.1 `nullable` keywords is a separate API-contract follow-up.
++
+ Stage 6 needs a project's scans: `GET /api/v1/scans?projectId=` (`scan:read`, keyset, optional `status`) and `errorCode` on scan responses were locked (Phase 11B) and implemented before stage 6 (`docs/security/AUTHORIZATION-MODEL.md`, Scans).
+ 
+ Stage 10 needs `GET /api/v1/audit-logs`. Its backend contract was locked and implemented before stage 10, as `docs/reports/REPORTS.md` D10.17 required: one organization per request (`organizationId`, `audit:read`), no filters, no metadata (`docs/security/AUTHORIZATION-MODEL.md`, Audit Log API).
+diff --git a/sentinel/docs/development/TESTING.md b/sentinel/docs/development/TESTING.md
+index 860fa32..0738b95 100644
+--- a/sentinel/docs/development/TESTING.md
++++ b/sentinel/docs/development/TESTING.md
+@@ -31,6 +31,13 @@ Cover:
+ - oversized payloads
+ - rate limits
+ 
++## Frontend (apps/web)
++
++- Unit and component tests: Vitest with jsdom and React Testing Library (`pnpm test`). They cover the API client, error mapping, the query retry policy, the in-memory session, token renewal and tab coordination, and providers.
++- API fixtures: MSW (`test/msw/server.ts`); a request without a handler fails the test.
++- Static security checks (`test/security.test.ts`): no browser storage, cookie access or console in application code, no absolute URL, no internal API field, the `/api/v1` rewrite in development only.
++- Browser E2E: Playwright (`pnpm test:e2e`) through the Next.js dev server and its `/api/v1` rewrite to the Go API, never directly to the API; tests that need the API run with `SENTINEL_E2E_API=1`.
++
+ ## End-to-end
+ 
+ Critical user journey:

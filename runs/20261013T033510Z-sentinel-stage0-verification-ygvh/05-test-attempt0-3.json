@@ -1,0 +1,11 @@
+{
+  "name": "git-branch",
+  "cwd": "D:\\AI\\free-agentic-lab",
+  "command": "git rev-parse --abbrev-ref HEAD",
+  "returncode": 128,
+  "timed_out": false,
+  "duration_seconds": 0.086,
+  "error": "",
+  "stdout": "HEAD\n",
+  "stderr": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+}

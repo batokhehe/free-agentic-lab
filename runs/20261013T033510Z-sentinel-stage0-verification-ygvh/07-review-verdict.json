@@ -1,0 +1,14 @@
+{
+  "verdict": "DRY-RUN (not reviewed)",
+  "round": 0,
+  "detail": "dry-run: no real model invoked",
+  "qa_passed": false,
+  "coder_models": [
+    "opencode/big-pickle",
+    "opencode/ling-3.1-flash-free"
+  ],
+  "reviewer_models": [
+    "opencode/nemotron-3-ultra-free"
+  ],
+  "generated_at": "2026-10-13T03:35:12+00:00"
+}

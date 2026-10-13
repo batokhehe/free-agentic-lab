@@ -1,0 +1,50 @@
+{
+  "attempt": 0,
+  "passed": true,
+  "results": [
+    {
+      "name": "node-version",
+      "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+      "command": "node --version",
+      "returncode": 0,
+      "timed_out": false,
+      "duration_seconds": 0.069,
+      "error": "",
+      "stdout": "v22.20.0\n",
+      "stderr": ""
+    },
+    {
+      "name": "pnpm-version",
+      "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+      "command": "pnpm --version",
+      "returncode": 0,
+      "timed_out": false,
+      "duration_seconds": 0.414,
+      "error": "",
+      "stdout": "11.5.1\n",
+      "stderr": ""
+    },
+    {
+      "name": "git-head",
+      "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+      "command": "git rev-parse HEAD",
+      "returncode": 0,
+      "timed_out": false,
+      "duration_seconds": 0.078,
+      "error": "",
+      "stdout": "d61ca589c336089e2f495bfcd2664239f69e309f\n",
+      "stderr": ""
+    },
+    {
+      "name": "git-branch",
+      "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+      "command": "git rev-parse --abbrev-ref HEAD",
+      "returncode": 0,
+      "timed_out": false,
+      "duration_seconds": 0.082,
+      "error": "",
+      "stdout": "main\n",
+      "stderr": ""
+    }
+  ]
+}

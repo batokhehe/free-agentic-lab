@@ -1,0 +1,11 @@
+{
+  "name": "pnpm-version",
+  "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+  "command": "pnpm --version",
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 0.414,
+  "error": "",
+  "stdout": "11.5.1\n",
+  "stderr": ""
+}

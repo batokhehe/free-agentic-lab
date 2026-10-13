@@ -1,0 +1,6 @@
+{
+  "apps/web/pnpm-lock.yaml": {
+    "change": "modified",
+    "verdict": "out-of-scope"
+  }
+}

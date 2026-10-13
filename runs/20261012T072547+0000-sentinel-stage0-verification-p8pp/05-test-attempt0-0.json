@@ -1,0 +1,11 @@
+{
+  "name": "node-version",
+  "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+  "command": "node --version",
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 0.069,
+  "error": "",
+  "stdout": "v22.20.0\n",
+  "stderr": ""
+}

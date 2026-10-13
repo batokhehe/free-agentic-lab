@@ -1,0 +1,11 @@
+{
+  "name": "git-branch",
+  "cwd": "D:\\Naufal\\Example\\Pentest\\sentinel",
+  "command": "git rev-parse --abbrev-ref HEAD",
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 0.082,
+  "error": "",
+  "stdout": "main\n",
+  "stderr": ""
+}

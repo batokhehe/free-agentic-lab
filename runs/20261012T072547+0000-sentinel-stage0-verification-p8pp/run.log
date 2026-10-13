@@ -1,0 +1,13 @@
+[2026-10-12T07:25:47+00:00] run started: task=sentinel-stage0-verification run_id=20261012T072547+0000-sentinel-stage0-verification-p8pp mode=read_only
+[2026-10-12T07:25:47+00:00] == stage 'audit' ==
+[2026-10-12T07:25:48+00:00] audit: branch=main head=d61ca589c336089e2f495bfcd2664239f69e309f git_toplevel=D:/Naufal/Example/Pentest files=349 status={"modified": 4, "deleted": 1, "added": 0, "renamed": 0, "untracked": 45, "other": 0}
+[2026-10-12T07:25:48+00:00] == stage 'analyze' ==
+[2026-10-12T07:25:48+00:00] stage 'analyze': invoking opencode (model=opencode/big-pickle)
+[2026-10-12T07:28:56+00:00] stage 'analyze': opencode rc=0 timed_out=False duration=188.2s
+[2026-10-12T07:28:56+00:00] == stage 'test' ==
+[2026-10-12T07:28:56+00:00] test attempt 0: running node-version: node --version
+[2026-10-12T07:28:56+00:00] test attempt 0: running pnpm-version: pnpm --version
+[2026-10-12T07:28:56+00:00] test attempt 0: running git-head: git rev-parse HEAD
+[2026-10-12T07:28:56+00:00] test attempt 0: running git-branch: git rev-parse --abbrev-ref HEAD
+[2026-10-12T07:28:56+00:00] == stage 'review' ==
+[2026-10-12T07:28:57+00:00] BLOCKED at stage 'review': changes detected outside allowed scope: apps/web/pnpm-lock.yaml (out-of-scope)

@@ -1,0 +1,82 @@
+id: sentinel-stage0-verification
+title: "Phase 11D Stage 0 - Frontend Scaffold Final Verification Gate (READ-ONLY)"
+mode: read_only
+priority: 100
+approval_required: false
+
+goal: |
+  Perform a READ-ONLY verification of the Phase 11D Stage 0 frontend scaffold in
+  apps/web of this repository. Do not modify, create, delete, stage, commit or
+  push anything. Do not run scanners or touch any real target.
+
+  Inspect the repository directly (read files, list files, run genuinely
+  read-only commands) and produce a structured Markdown report that covers:
+
+  1. Current branch, HEAD commit, and pre-existing Git changes (tracked and
+     untracked), clearly separating changes that already existed before this run
+     from anything else.
+  2. A tracked and untracked file inventory, highlighting the apps/web scaffold
+     and any generated/build artifacts that should not be committed.
+  3. The relevant frontend architecture decisions (framework, routing, data
+     fetching, styling, testing) and security decisions (API proxy, auth/session
+     handling, environment handling, secret hygiene) as evidenced by the actual
+     source files and docs.
+  4. Actual test / typecheck / lint / build results ONLY if you actually ran them
+     and can quote real output and exit codes. Note the installed toolchain
+     versions versus the versions declared in package.json. If a check could not
+     be run safely or is not supported, say so explicitly instead of guessing.
+  5. Any unverified claims or missing evidence.
+  6. A final verdict: exactly one of "READY TO COMMIT", "NOT READY", or
+     "NOT VERIFIED", with justification.
+  7. A recommended next step for Phase 11D Stage 1.
+
+  Label every statement as direct evidence (you ran/saw it), reported claim, or
+  assumption. Never present a claim as direct evidence. Never claim a test
+  passed without real output and exit code.
+
+tests:
+  - name: node-version
+    command: "node --version"
+    timeout_seconds: 60
+  - name: pnpm-version
+    command: "pnpm --version"
+    timeout_seconds: 60
+  - name: git-head
+    command: "git rev-parse HEAD"
+    timeout_seconds: 60
+  - name: git-branch
+    command: "git rev-parse --abbrev-ref HEAD"
+    timeout_seconds: 60
+
+prompts:
+  analyze: |
+    You are performing a READ-ONLY Stage 0 Final Verification Gate. You MUST NOT
+    modify, create, delete, move, stage, commit, or push any file. You MUST NOT run
+    network scanners or interact with any real pentest target.
+
+    Repository under inspection: apps/web (a Next.js 16 / React 19 frontend
+    scaffold). Read the files directly and quote evidence (paths, snippets,
+    command output, exit codes). The orchestrator has already recorded Git
+    status, HEAD and a content-hash manifest; your job is the architectural,
+    security and readiness analysis.
+
+    Produce a Markdown report with these sections:
+
+    # Stage 0 Verification Report
+    ## 1. Repository state (branch, HEAD, pre-existing changes)
+    ## 2. File inventory (tracked / untracked, generated artifacts)
+    ## 3. Frontend architecture decisions (with file evidence)
+    ## 4. Security decisions (API proxy, auth/session, env, secrets)
+    ## 5. Verification results (test/typecheck/lint/build) - actual output or NOT RUN
+    ## 6. Unverified claims / missing evidence
+    ## 7. Verdict (exactly one of: READY TO COMMIT | NOT READY | NOT VERIFIED)
+    ## 8. Recommended next step for Phase 11D Stage 1
+
+    Rules:
+    - Do not edit any file; this is read-only.
+    - Do not run any command that writes to the repository or network.
+    - Only report a check as passed if you actually ran it and saw its output and
+      exit code. Otherwise mark it NOT RUN / NOT VERIFIED.
+    - Call out the mismatch between declared toolchain versions (package.json
+      engines / packageManager) and the installed versions (node/pnpm).
+    - Label statements as [evidence], [claim], or [assumption].

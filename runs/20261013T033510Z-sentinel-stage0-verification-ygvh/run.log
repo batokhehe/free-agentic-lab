@@ -1,0 +1,14 @@
+[2026-10-13T03:35:10+00:00] run started: task=sentinel-stage0-verification run_id=20261013T033510Z-sentinel-stage0-verification-ygvh mode=read_only
+[2026-10-13T03:35:10+00:00] == stage 'audit' ==
+[2026-10-13T03:35:10+00:00] audit: branch=(unknown) head=(no commit) git_toplevel=D:/AI/free-agentic-lab files=35 status={"modified": 0, "deleted": 0, "added": 0, "renamed": 0, "untracked": 86, "other": 0}
+[2026-10-13T03:35:10+00:00] == stage 'analyze' ==
+[2026-10-13T03:35:10+00:00] == stage 'test' ==
+[2026-10-13T03:35:10+00:00] test attempt 0: running node-version: node --version
+[2026-10-13T03:35:10+00:00] test attempt 0: running pnpm-version: pnpm --version
+[2026-10-13T03:35:11+00:00] test attempt 0: running git-head: git rev-parse HEAD
+[2026-10-13T03:35:11+00:00] test attempt 0: running git-branch: git rev-parse --abbrev-ref HEAD
+[2026-10-13T03:35:11+00:00] test: read-only verification commands reported failures; recording (not failing task)
+[2026-10-13T03:35:11+00:00] == stage 'review' ==
+[2026-10-13T03:35:12+00:00] review: verdict=DRY-RUN (not reviewed) after round 0: dry-run: no real model invoked
+[2026-10-13T03:35:12+00:00] == stage 'report' ==
+[2026-10-13T03:35:12+00:00] run finished: status=completed
